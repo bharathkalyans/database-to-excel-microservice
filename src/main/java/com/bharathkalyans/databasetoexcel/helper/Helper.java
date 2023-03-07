@@ -15,17 +15,17 @@ import java.util.List;
 public class Helper {
 
     //user_id |email|   first_name   |   gender    |   last_name
-    public static String[] HEADERS = {"USER_ID", "EMAIL", "FIRST_NAME", "GENDER", "LAST_NAME"};
+    private static final String[] HEADERS = {"USER_ID", "EMAIL", "FIRST_NAME", "GENDER", "LAST_NAME"};
 
-    public static String SHEET_NAME = "user_details";
+    private static final String SHEET_NAME = "user_details";
 
-    public static ByteArrayInputStream dataToExcel(List<UserDetails> userDetailsList) throws IOException {
+    public static ByteArrayInputStream dataToExcel(List<UserDetails> userDetailsList) {
 
         //1.WorkBook
-        Workbook workBook = new XSSFWorkbook();
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        try {
+        try (Workbook workBook = new XSSFWorkbook(); out) {
 
             //2.Sheet
             Sheet sheet = workBook.createSheet(SHEET_NAME);
@@ -55,15 +55,12 @@ public class Helper {
 
             return new ByteArrayInputStream(out.toByteArray());
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Unable to generate Excel File!");
-        } finally {
-            workBook.close();
-            out.close();
+            return null;
         }
 
-        return new ByteArrayInputStream(out.toByteArray());
 
     }
 }

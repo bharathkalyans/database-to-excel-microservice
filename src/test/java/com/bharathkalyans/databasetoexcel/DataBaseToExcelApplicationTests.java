@@ -17,7 +17,7 @@ class DataBaseToExcelApplicationTests {
 
     @Test
     void fetchData(){
-        userDetailsRepository.findAll().forEach(user -> System.out.println(user.toString()));
+//        userDetailsRepository.findAll().forEach(user -> System.out.println(user.toString()));
     }
 
 }
